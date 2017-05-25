@@ -8,7 +8,7 @@ Because the creator of "es_extended" is French and me too, the instructions in E
 
 --------[FR]---------
 
-Vous avez besoin de ce module pour que esx_weedjob fonctionne:
+Vous avez besoin de ce module pour que esx_cokejob fonctionne:
 
 Https://github.com/indilo53/fivem-es_extended
 
@@ -29,7 +29,7 @@ PS: Notre serveur recherche des developpeurs sur ESX, le travaille pour le serve
 
 --------[ENG]--------
 
-You NEED this module for esx_weedjob to work :
+You NEED this module for esx_cokejob to work :
 
 https://github.com/indilo53/fivem-es_extended
 
