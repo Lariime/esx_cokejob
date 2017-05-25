@@ -42,7 +42,6 @@ https://github.com/indilo53/fivem-es_extended
 3) Executed esx_cokejob.sql in gta5_gamemode_essential
 
 
-NOTE: Workwear will be added later
 
 
 
