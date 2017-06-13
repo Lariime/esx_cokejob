@@ -1,6 +1,7 @@
-description 'ESX Extended - ATM'
+description 'ESX Extended - CokeJob'
 
 server_script 'server/main.lua'
+server_script 'config.lua'
 
 client_script 'config.lua'
 client_script 'client/main.lua'
