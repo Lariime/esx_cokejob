@@ -1,8 +1,35 @@
+local CopsConnected       = 0
+
 local PlayersHarvesting   = {}
 local PlayersTransforming = {}
 local PlayersSelling      = {}
 
+function CountCops()
+
+	TriggerEvent('esx:getPlayers', function(xPlayers)
+
+		CopsConnected = 0
+
+		for k,v in pairs(xPlayers) do
+			if v.job.name == 'cop' then
+				CopsConnected = CopsConnected + 1
+			end
+		end
+
+	end)
+
+	SetTimeout(5000, CountCops)
+
+end
+
+CountCops()
+
 local function HarvestCoke(source)
+
+	if CopsConnected < Config.RequiredCops then
+		TriggerClientEvent('esx_cokejob:showNotification', source, 'Action ~r~impossible~s~, ~b~policiers~s~: ' .. CopsConnected .. '/' .. Config.RequiredCops)
+		return
+	end
 
 	SetTimeout(5000, function()
 
@@ -10,10 +37,10 @@ local function HarvestCoke(source)
 
 			TriggerEvent('esx:getPlayerFromId', source, function(xPlayer)
 
-				local cokeQuantity = xPlayer:getInventoryItem('coke').count
+				local cokeQuantity = xPlayer:getInventoryItem('coke')
 
-				if cokeQuantity == 60 then
-					TriggerClientEvent('esx_cokejob:showNotification', source, 'Vous ne pouvez plus ramasser de feuille de coca, votre inventaire est plein')
+				if coke.limit ~= -1 and coke.count >= coke.limit then
+					TriggerClientEvent('esx_weedjob:showNotification', source, 'Vous ne pouvez plus ramasser de Cocaine, votre inventaire est ~r~plein~s~')
 				else
 					xPlayer:addInventoryItem('coke', 1)
 					HarvestCoke(source)
@@ -30,7 +57,7 @@ AddEventHandler('esx_cokejob:startHarvestCoke', function()
 
 	PlayersHarvesting[source] = true
 
-	TriggerClientEvent('esx_cokejob:showNotification', source, 'Ramassage en cours...')
+	TriggerClientEvent('esx_cokejob:showNotification', source, '~y~Ramassage en cours~s~...')
 
 	HarvestCoke(source)
 
@@ -45,6 +72,11 @@ end)
 
 local function TransformCoke(source)
 
+	if CopsConnected < Config.RequiredCops then
+		TriggerClientEvent('esx_weedjob:showNotification', source, 'Action ~r~impossible~s~, ~b~policiers~s~: ' .. CopsConnected .. '/' .. Config.RequiredCops)
+		return
+	end
+
 	SetTimeout(5000, function()
 
 		if PlayersTransforming[source] == true then
@@ -54,7 +86,7 @@ local function TransformCoke(source)
 				local cokeQuantity = xPlayer:getInventoryItem('coke').count
 
 				if cokeQuantity < 5 then
-					TriggerClientEvent('esx_cokejob:showNotification', source, 'Vous n\'avez pas assez de feuille de coca à conditionner')
+					TriggerClientEvent('esx_cokejob:showNotification', source, 'Vous n\'avez pas assez de feuille de coca à ~r~conditionner~s~')
 				else
 					xPlayer:removeInventoryItem('coke', 7)
 					xPlayer:addInventoryItem('coke_pooch', 8)
@@ -73,7 +105,7 @@ AddEventHandler('esx_cokejob:startTransformCoke', function()
 
 	PlayersTransforming[source] = true
 
-	TriggerClientEvent('esx_cokejob:showNotification', source, 'Conditonnement en cours...')
+	TriggerClientEvent('esx_cokejob:showNotification', source, '~y~Conditonnement en cours~s~...')
 
 	TransformCoke(source)
 
@@ -88,7 +120,12 @@ end)
 
 local function SellCoke(source)
 
-	SetTimeout(10000, function()
+	if CopsConnected < Config.RequiredCops then
+		TriggerClientEvent('esx_weedjob:showNotification', source, 'Action ~r~impossible~s~, ~b~policiers~s~: ' .. CopsConnected .. '/' .. Config.RequiredCops)
+		return
+	end
+
+	SetTimeout(7500, function()
 
 		if PlayersSelling[source] == true then
 
@@ -97,10 +134,10 @@ local function SellCoke(source)
 				local poochQuantity = xPlayer:getInventoryItem('coke_pooch').count
 
 				if poochQuantity == 0 then
-					TriggerClientEvent('esx_cokejob:showNotification', source, 'Vous n\'avez plus de pochons à vendre')
+					TriggerClientEvent('esx_cokejob:showNotification', source, 'Vous n\'avez plus de pochons à ~r~vendre~s~')
 				else
-					xPlayer:removeInventoryItem('coke_pooch', 8)
-					xPlayer:addAccountMoney('black_money', 80)
+					xPlayer:removeInventoryItem('coke_pooch', 1)
+					xPlayer:addAccountMoney('black_money', 750)
 				
 					SellCoke(source)
 				end
@@ -116,7 +153,7 @@ AddEventHandler('esx_cokejob:startSellCoke', function()
 
 	PlayersSelling[source] = true
 
-	TriggerClientEvent('esx_cokejob:showNotification', source, 'Vente en cours...')
+	TriggerClientEvent('esx_cokejob:showNotification', source, '~g~Vente en cours~s~...')
 
 	SellCoke(source)
 
