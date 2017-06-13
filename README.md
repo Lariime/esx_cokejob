@@ -1,3 +1,5 @@
+----------------------------------------By Five-Dev pour ESX---------------------------------
+
 CREDIT TO: https://github.com/indilo53 (Because i use esx_weedjob for make this)(And because es_extended is awesome) :D
 
 Because the creator of "es_extended" is French and me too, the instructions in English are at the bottom of the page
