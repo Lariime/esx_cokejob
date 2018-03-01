@@ -1,3 +1,5 @@
+!!!! DONT WORK WITH FXSERVER !!!!
+
 ----------------------------------------By Five-Dev pour ESX---------------------------------
 
 CREDIT TO: https://github.com/indilo53 (Because i use esx_weedjob for make this)(And because es_extended is awesome) :D
